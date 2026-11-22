@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <!-- SDL's Java side (copied in by the build script) plus our activity. Compiled only, not bound to C#. -->
-    <AndroidJavaSource Include="java\**\*.java" Bind="false" />
+    <AndroidJavaSource Update="java\**\*.java" Bind="false" />
     <!-- Native libraries built by android/native/build-natives.sh -->
     <AndroidNativeLibrary Include="libs\arm64-v8a\*.so" Abi="arm64-v8a" />
   </ItemGroup>
