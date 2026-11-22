@@ -161,9 +161,9 @@ namespace OpenRA.Platforms.Default
 
 			PrepareTexture();
 
-			var glInternalFormat = OpenGL.Profile == GLProfile.Embedded
-				? (embeddedBgraUnsupported ? OpenGL.GL_RGBA : OpenGL.GL_BGRA)
-				: OpenGL.GL_RGBA8;
+			// GLES 3 only accepts RGBA-family formats for glCopyTexImage2D (BGRA gives GL_INVALID_ENUM).
+			// The copied pixels come from the framebuffer, so they are already in the right channel order.
+			var glInternalFormat = OpenGL.Profile == GLProfile.Embedded ? OpenGL.GL_RGBA : OpenGL.GL_RGBA8;
 			OpenGL.glCopyTexImage2D(OpenGL.GL_TEXTURE_2D, 0, glInternalFormat, rect.X, rect.Y, rect.Width, rect.Height, 0);
 			OpenGL.CheckGLError();
 		}
