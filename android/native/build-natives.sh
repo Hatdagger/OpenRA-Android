@@ -16,7 +16,12 @@ if [ -z "$NDK" ] || [ ! -d "$NDK" ]; then
 fi
 
 API=24
-ABI=arm64-v8a
+ABI="${1:-arm64-v8a}"
+case "$ABI" in
+	arm64-v8a) TRIPLE=aarch64-linux-android ;;
+	x86_64) TRIPLE=x86_64-linux-android ;;  # emulator testing only
+	*) echo "Unsupported ABI $ABI" >&2; exit 1 ;;
+esac
 SDL_TAG=release-2.32.10
 OPENAL_TAG=1.24.3
 FREETYPE_TAG=VER-2-13-3
@@ -26,7 +31,7 @@ ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 WORK="${WORK:-$ROOT/build/native}"
 OUT="$ROOT/android/OpenRA.Android/libs/$ABI"
 JAVA_OUT="$ROOT/android/OpenRA.Android/java/org/libsdl/app"
-CC="$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android${API}-clang"
+CC="$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/${TRIPLE}${API}-clang"
 LDFLAGS_16K="-Wl,-z,max-page-size=16384"
 
 TOOLCHAIN=(
@@ -59,26 +64,26 @@ install_lib() {
 
 echo "=== SDL2 $SDL_TAG"
 [ -d SDL ] || git clone --depth 1 --branch "$SDL_TAG" https://github.com/libsdl-org/SDL.git SDL
-cmake -S SDL -B SDL/build "${TOOLCHAIN[@]}" -DSDL_SHARED=ON -DSDL_STATIC=OFF -DSDL_TEST=OFF -DSDL_HIDAPI=ON
-cmake --build SDL/build
-install_lib SDL/build 'libSDL2*.so*' libSDL2.so
+cmake -S SDL -B SDL/build-$ABI "${TOOLCHAIN[@]}" -DSDL_SHARED=ON -DSDL_STATIC=OFF -DSDL_TEST=OFF -DSDL_HIDAPI=ON
+cmake --build SDL/build-$ABI
+install_lib SDL/build-$ABI 'libSDL2*.so*' libSDL2.so
 cp SDL/android-project/app/src/main/java/org/libsdl/app/*.java "$JAVA_OUT/"
 
 echo "=== OpenAL Soft $OPENAL_TAG"
 [ -d openal-soft ] || git clone --depth 1 --branch "$OPENAL_TAG" https://github.com/kcat/openal-soft.git openal-soft
-cmake -S openal-soft -B openal-soft/build "${TOOLCHAIN[@]}" \
+cmake -S openal-soft -B openal-soft/build-$ABI "${TOOLCHAIN[@]}" \
 	-DALSOFT_UTILS=OFF -DALSOFT_EXAMPLES=OFF -DALSOFT_TESTS=OFF -DALSOFT_INSTALL=OFF \
 	-DALSOFT_BACKEND_OPENSL=ON -DALSOFT_REQUIRE_OPENSL=ON \
 	-DCMAKE_CXX_FLAGS="-include cstdlib"
-cmake --build openal-soft/build
-install_lib openal-soft/build 'libopenal.so*' libsoft_oal.so
+cmake --build openal-soft/build-$ABI
+install_lib openal-soft/build-$ABI 'libopenal.so*' libsoft_oal.so
 
 echo "=== FreeType $FREETYPE_TAG"
 [ -d freetype ] || git clone --depth 1 --branch "$FREETYPE_TAG" https://github.com/freetype/freetype.git freetype
-cmake -S freetype -B freetype/build "${TOOLCHAIN[@]}" -DBUILD_SHARED_LIBS=ON \
+cmake -S freetype -B freetype/build-$ABI "${TOOLCHAIN[@]}" -DBUILD_SHARED_LIBS=ON \
 	-DFT_DISABLE_ZLIB=ON -DFT_DISABLE_BZIP2=ON -DFT_DISABLE_PNG=ON -DFT_DISABLE_HARFBUZZ=ON -DFT_DISABLE_BROTLI=ON
-cmake --build freetype/build
-install_lib freetype/build 'libfreetype.so*' libfreetype6.so
+cmake --build freetype/build-$ABI
+install_lib freetype/build-$ABI 'libfreetype.so*' libfreetype6.so
 
 echo "=== Lua $LUA_VERSION"
 if [ ! -d "lua-$LUA_VERSION" ]; then

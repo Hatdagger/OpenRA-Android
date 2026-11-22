@@ -8,7 +8,8 @@
     <ApplicationTitle>OpenRA</ApplicationTitle>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
-    <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+    <!-- arm64 for devices; CI also builds android-x64 to smoke test in an emulator. -->
+    <RuntimeIdentifiers Condition="'$(RuntimeIdentifiers)' == ''">android-arm64</RuntimeIdentifiers>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidManifest>AndroidManifest.xml</AndroidManifest>
     <!-- OpenRA creates almost everything through reflection, so nothing may be trimmed. -->

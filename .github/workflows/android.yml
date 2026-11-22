@@ -42,13 +42,15 @@ jobs:
           path: |
             android/OpenRA.Android/libs
             android/OpenRA.Android/java/org
-          key: natives-v1-${{ hashFiles('android/native/**') }}
+          key: natives-v2-${{ hashFiles('android/native/**') }}
 
       - name: Build native libraries
         if: steps.natives.outputs.cache-hit != 'true'
         env:
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
-        run: bash android/native/build-natives.sh
+        run: |
+          bash android/native/build-natives.sh arm64-v8a
+          bash android/native/build-natives.sh x86_64
 
       - name: Package engine data
         run: bash android/package-engine.sh
@@ -70,6 +72,22 @@ jobs:
           mkdir -p out
           find android/OpenRA.Android/bin/Release -name '*-Signed.apk' -exec cp {} out/OpenRA-Android.apk \;
           ls -la out
+
+      - name: Build x86_64 APK (emulator smoke test only)
+        run: |
+          rm -rf android/OpenRA.Android/bin/Release
+          dotnet publish android/OpenRA.Android/OpenRA.Android.csproj -c Release -f net10.0-android \
+            -p:RuntimeIdentifiers=android-x64 \
+            -p:AndroidSdkDirectory="$ANDROID_HOME" -p:JavaSdkDirectory="$JAVA_HOME"
+          mkdir -p out-x64
+          find android/OpenRA.Android/bin/Release -name '*-Signed.apk' -exec cp {} out-x64/OpenRA-Android.apk \;
+          unzip -l out-x64/OpenRA-Android.apk | grep 'lib/' || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OpenRA-Android-x86_64-apk
+          path: out-x64/OpenRA-Android.apk
+          if-no-files-found: error
           unzip -l out/OpenRA-Android.apk | grep -E 'lib/|assets/' || true
 
       - uses: actions/upload-artifact@v4
@@ -108,7 +126,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: OpenRA-Android-apk
+          name: OpenRA-Android-x86_64-apk
           path: out
 
       - name: Enable KVM
