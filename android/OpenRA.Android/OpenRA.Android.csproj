@@ -9,7 +9,9 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
     <!-- arm64 for devices; CI also builds android-x64 to smoke test in an emulator. -->
-    <RuntimeIdentifiers Condition="'$(RuntimeIdentifiers)' == ''">android-arm64</RuntimeIdentifiers>
+    <!-- Pass -p:OpenRAAndroidRid=android-x64 for the emulator build (a global RuntimeIdentifiers would leak into the engine projects). -->
+    <OpenRAAndroidRid Condition="'$(OpenRAAndroidRid)' == ''">android-arm64</OpenRAAndroidRid>
+    <RuntimeIdentifiers>$(OpenRAAndroidRid)</RuntimeIdentifiers>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidManifest>AndroidManifest.xml</AndroidManifest>
     <!-- OpenRA creates almost everything through reflection, so nothing may be trimmed. -->

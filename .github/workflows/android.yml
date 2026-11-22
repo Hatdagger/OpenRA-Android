@@ -78,7 +78,7 @@ jobs:
         run: |
           rm -rf android/OpenRA.Android/bin/Release
           dotnet publish android/OpenRA.Android/OpenRA.Android.csproj -c Release -f net10.0-android \
-            -p:RuntimeIdentifiers=android-x64 \
+            -p:OpenRAAndroidRid=android-x64 \
             -p:AndroidSdkDirectory="$ANDROID_HOME" -p:JavaSdkDirectory="$JAVA_HOME"
           mkdir -p out-x64
           find android/OpenRA.Android/bin/Release -name '*-Signed.apk' -exec cp {} out-x64/OpenRA-Android.apk \;
