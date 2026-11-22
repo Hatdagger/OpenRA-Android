@@ -429,6 +429,17 @@ namespace OpenRA
 		{
 			var rendererPath = Path.Combine(Platform.BinDir, "OpenRA.Platforms." + platformName + ".dll");
 
+			// Android packs assemblies inside the APK; load the platform by name.
+			if (!File.Exists(rendererPath))
+			{
+				var bundled = System.Reflection.Assembly.Load(new System.Reflection.AssemblyName("OpenRA.Platforms." + platformName));
+				var bundledType = bundled.GetTypes().SingleOrDefault(t => typeof(IPlatform).IsAssignableFrom(t));
+				if (bundledType == null)
+					throw new InvalidOperationException("Platform dll must include exactly one IPlatform implementation.");
+
+				return (IPlatform)bundledType.GetConstructor(Type.EmptyTypes).Invoke(null);
+			}
+
 #if NET5_0_OR_GREATER
 			var loader = new AssemblyLoader(rendererPath);
 			var platformType = loader.LoadDefaultAssembly().GetTypes().SingleOrDefault(t => typeof(IPlatform).IsAssignableFrom(t));

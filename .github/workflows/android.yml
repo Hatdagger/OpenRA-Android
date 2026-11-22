@@ -1,0 +1,83 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            10.0.x
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build patchelf zip
+          dotnet workload install android
+
+      - name: Cache native libraries and SDL Java sources
+        id: natives
+        uses: actions/cache@v4
+        with:
+          path: |
+            android/OpenRA.Android/libs
+            android/OpenRA.Android/java/org
+          key: natives-v1-${{ hashFiles('android/native/**') }}
+
+      - name: Build native libraries
+        if: steps.natives.outputs.cache-hit != 'true'
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
+        run: bash android/native/build-natives.sh
+
+      - name: Package engine data
+        run: bash android/package-engine.sh
+
+      - name: Install Android SDK dependencies
+        run: |
+          dotnet build android/OpenRA.Android/OpenRA.Android.csproj -t:InstallAndroidDependencies \
+            -f net10.0-android -p:AndroidSdkDirectory="$ANDROID_HOME" -p:JavaSdkDirectory="$JAVA_HOME" \
+            -p:AcceptAndroidSDKLicenses=True
+
+      - name: Build APK
+        run: |
+          dotnet publish android/OpenRA.Android/OpenRA.Android.csproj -c Release -f net10.0-android \
+            -p:AndroidSdkDirectory="$ANDROID_HOME" -p:JavaSdkDirectory="$JAVA_HOME" 2>&1 | tee build.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Collect APK
+        run: |
+          mkdir -p out
+          find android/OpenRA.Android/bin/Release -name '*-Signed.apk' -exec cp {} out/OpenRA-Android.apk \;
+          ls -la out
+          unzip -l out/OpenRA-Android.apk | grep -E 'lib/|assets/' || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OpenRA-Android-apk
+          path: out/OpenRA-Android.apk
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-log
+          path: build.log
+          if-no-files-found: ignore

@@ -38,10 +38,17 @@ namespace OpenRA
 		static string modernUserSupportPath;
 		static string userSupportPath;
 
+		/// <summary>True when running inside the Android app wrapper (set by the launcher).</summary>
+		public static bool IsAndroid => Environment.GetEnvironmentVariable("OPENRA_ANDROID") == "1";
+
 		static PlatformType GetCurrentPlatform()
 		{
 			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
 				return PlatformType.Windows;
+
+			// Android is a Linux kernel; avoid spawning external processes there.
+			if (IsAndroid)
+				return PlatformType.Linux;
 
 			try
 			{

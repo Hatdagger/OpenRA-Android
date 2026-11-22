@@ -45,6 +45,18 @@ namespace OpenRA
 
 		static void LoadAssembly(List<Assembly> assemblyList, string resolvedPath)
 		{
+			// Android packs assemblies inside the APK instead of next to the executable.
+			// They are already referenced by the app, so load them by name.
+			if (!File.Exists(resolvedPath))
+			{
+				var name = Path.GetFileNameWithoutExtension(resolvedPath);
+				var bundled = Assembly.Load(new AssemblyName(name));
+				if (!assemblyList.Contains(bundled))
+					assemblyList.Add(bundled);
+
+				return;
+			}
+
 			// .NET doesn't provide any way of querying the metadata of an assembly without either:
 			//   (a) loading duplicate data into the application domain, breaking the world.
 			//   (b) crashing if the assembly has already been loaded.

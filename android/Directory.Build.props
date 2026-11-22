@@ -1,0 +1,3 @@
+<Project>
+  <!-- Stops the engine's root Directory.Build.props (net6.0 desktop settings) from applying to the Android app. -->
+</Project>

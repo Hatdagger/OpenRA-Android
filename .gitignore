@@ -54,3 +54,12 @@ update.log
 
 # IntelliJ files
 .idea
+
+# Android port build outputs
+/build/
+/android/OpenRA.Android/libs/
+/android/OpenRA.Android/java/org/
+/android/OpenRA.Android/Assets/engine.zip
+/android/OpenRA.Android/Assets/engine.version
+/android/OpenRA.Android/bin/
+/android/OpenRA.Android/obj/

@@ -148,9 +148,14 @@ namespace OpenRA.Platforms.Default
 				// Prefer standard GL over GLES provided by the native driver
 				var testProfiles = new List<GLProfile> { GLProfile.ANGLE, GLProfile.Modern, GLProfile.Embedded };
 				var errorLog = new List<string>();
-				supportedProfiles = testProfiles
-					.Where(profile => CanCreateGLWindow(profile, errorLog))
-					.ToArray();
+
+				// Android only has one window and only provides OpenGL ES, so skip the probe windows.
+				if (Platform.IsAndroid)
+					supportedProfiles = new[] { GLProfile.Embedded };
+				else
+					supportedProfiles = testProfiles
+						.Where(profile => CanCreateGLWindow(profile, errorLog))
+						.ToArray();
 
 				if (supportedProfiles.Length == 0)
 				{
@@ -191,7 +196,9 @@ namespace OpenRA.Platforms.Default
 					// Launch the game with OPENRA_DISPLAY_SCALE to force a specific scaling factor
 					// Otherwise fall back to GDK_SCALE or parsing the x11 DPI configuration
 					var scaleVariable = Environment.GetEnvironmentVariable("OPENRA_DISPLAY_SCALE") ?? Environment.GetEnvironmentVariable("GDK_SCALE");
-					if (scaleVariable == null || !float.TryParse(scaleVariable, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out windowScale) || windowScale <= 0)
+					if ((scaleVariable == null || !float.TryParse(scaleVariable, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out windowScale) || windowScale <= 0) && Platform.IsAndroid)
+						windowScale = 1;
+					else if (scaleVariable == null || !float.TryParse(scaleVariable, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out windowScale) || windowScale <= 0)
 					{
 						// Attempt to automatically detect DPI
 						try
@@ -332,6 +339,18 @@ namespace OpenRA.Platforms.Default
 
 							Console.WriteLine($"Using new resolution: {windowSize.Width}x{windowSize.Height}");
 						}
+					}
+				}
+
+				// Android decides the real window size (system bars, cutouts), so read it back.
+				if (Platform.IsAndroid)
+				{
+					SDL.SDL_GL_GetDrawableSize(Window, out var width, out var height);
+					if (width > 0 && height > 0)
+					{
+						surfaceSize = new Size(width, height);
+						windowSize = new Size((int)(width / windowScale), (int)(height / windowScale));
+						Console.WriteLine($"Android surface: {width}x{height}");
 					}
 				}
 

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OpenRADroid</RootNamespace>
+    <ApplicationId>net.openra.android</ApplicationId>
+    <ApplicationTitle>OpenRA</ApplicationTitle>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
+    <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidManifest>AndroidManifest.xml</AndroidManifest>
+    <!-- OpenRA creates almost everything through reflection, so nothing may be trimmed. -->
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <PublishTrimmed>false</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <!-- The engine libraries target net6.0; that is fine to reference from here. -->
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <NoWarn>$(NoWarn);NU1701;NETSDK1138;XA4211;XA0141</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OpenRA.Game\OpenRA.Game.csproj" />
+    <ProjectReference Include="..\..\OpenRA.Mods.Common\OpenRA.Mods.Common.csproj" />
+    <ProjectReference Include="..\..\OpenRA.Mods.Cnc\OpenRA.Mods.Cnc.csproj" />
+    <ProjectReference Include="..\..\OpenRA.Platforms.Default\OpenRA.Platforms.Default.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- SDL's Java side (copied in by the build script) plus our activity. Compiled only, not bound to C#. -->
+    <AndroidJavaSource Include="java\**\*.java" Bind="false" />
+    <!-- Native libraries built by android/native/build-natives.sh -->
+    <AndroidNativeLibrary Include="libs\arm64-v8a\*.so" Abi="arm64-v8a" />
+  </ItemGroup>
+</Project>
