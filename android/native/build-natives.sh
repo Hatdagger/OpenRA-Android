@@ -68,7 +68,8 @@ echo "=== OpenAL Soft $OPENAL_TAG"
 [ -d openal-soft ] || git clone --depth 1 --branch "$OPENAL_TAG" https://github.com/kcat/openal-soft.git openal-soft
 cmake -S openal-soft -B openal-soft/build "${TOOLCHAIN[@]}" \
 	-DALSOFT_UTILS=OFF -DALSOFT_EXAMPLES=OFF -DALSOFT_TESTS=OFF -DALSOFT_INSTALL=OFF \
-	-DALSOFT_BACKEND_OPENSL=ON -DALSOFT_REQUIRE_OPENSL=ON
+	-DALSOFT_BACKEND_OPENSL=ON -DALSOFT_REQUIRE_OPENSL=ON \
+	-DCMAKE_CXX_FLAGS="-include cstdlib"
 cmake --build openal-soft/build
 install_lib openal-soft/build 'libopenal.so*' libsoft_oal.so
 
