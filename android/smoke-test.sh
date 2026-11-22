@@ -29,9 +29,19 @@ adb root > /dev/null 2>&1; sleep 3; adb wait-for-device
 adb install -r out/OpenRA-Android.apk > smoke/install.txt 2>&1
 cat smoke/install.txt
 EXT=/sdcard/Android/data/$PKG/files
-adb shell mkdir -p "$EXT/support"
-adb push /tmp/racontent/stage/Content "$EXT/support/" > /dev/null
-adb shell ls -R "$EXT/support/Content" | head -20
+# Launch once so Android creates the app's external folder, then pre-load the game files
+# as root with the app's ownership and SELinux labels.
+adb shell am start -n $PKG/$PKG.OpenRAActivity > /dev/null
+sleep 15
+adb shell am force-stop $PKG
+RAW=/data/media/0/Android/data/$PKG/files
+OWNER=$(adb shell stat -c %u:%g "$RAW" | tr -d '\r')
+echo "external files owner: $OWNER"
+adb shell mkdir -p "$RAW/support"
+adb push /tmp/racontent/stage/Content "$RAW/support/" > /dev/null
+adb shell chown -R "$OWNER" "$RAW/support"
+adb shell restorecon -R "$RAW/support"
+adb shell ls -lZ "$RAW/support/Content/ra/v2" | head -5
 
 echo "=== Launching"
 adb logcat -c
@@ -45,7 +55,7 @@ for t in 20 40 60 90 120 180 240; do
 	# (button position on the 2560x1800 pixel_c screen).
 	if [ "$t" = 20 ] && grep -q "Loading mod: ra-content" <(adb logcat -d -s DOTNET); then
 		echo "Content installer is showing; tapping Quick Install"
-		adb shell input tap 1263 1092
+		adb shell input swipe 1263 1092 1263 1092 200
 	fi
 done
 
