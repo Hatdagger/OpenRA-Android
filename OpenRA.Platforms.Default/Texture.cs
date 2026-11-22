@@ -69,12 +69,54 @@ namespace OpenRA.Platforms.Default
 			OpenGL.CheckGLError();
 		}
 
+		// Some GLES drivers (e.g. the Android emulator) reject BGRA uploads even when they
+		// advertise GL_EXT_texture_format_BGRA8888. Detected on first use; we then swizzle to RGBA.
+		static bool embeddedBgraUnsupported;
+
 		void SetData(IntPtr data, int width, int height)
 		{
 			PrepareTexture();
-			var glInternalFormat = OpenGL.Profile == GLProfile.Embedded ? OpenGL.GL_BGRA : OpenGL.GL_RGBA8;
-			OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, glInternalFormat, width, height,
-				0, OpenGL.GL_BGRA, OpenGL.GL_UNSIGNED_BYTE, data);
+			if (OpenGL.Profile != GLProfile.Embedded)
+			{
+				OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, OpenGL.GL_RGBA8, width, height,
+					0, OpenGL.GL_BGRA, OpenGL.GL_UNSIGNED_BYTE, data);
+				OpenGL.CheckGLError();
+				return;
+			}
+
+			if (!embeddedBgraUnsupported)
+			{
+				OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, OpenGL.GL_BGRA, width, height,
+					0, OpenGL.GL_BGRA, OpenGL.GL_UNSIGNED_BYTE, data);
+
+				if (OpenGL.glGetError() == OpenGL.GL_NO_ERROR)
+					return;
+
+				// Clear any remaining queued errors before falling back
+				while (OpenGL.glGetError() != OpenGL.GL_NO_ERROR) { }
+
+				embeddedBgraUnsupported = true;
+				Log.Write("graphics", "BGRA texture uploads are not supported by this driver; converting to RGBA.");
+			}
+
+			var length = 4 * width * height;
+			var rgba = new byte[length];
+			unsafe
+			{
+				var src = (byte*)data.ToPointer();
+				for (var i = 0; i < length; i += 4)
+				{
+					rgba[i] = src[i + 2];
+					rgba[i + 1] = src[i + 1];
+					rgba[i + 2] = src[i];
+					rgba[i + 3] = src[i + 3];
+				}
+
+				fixed (byte* ptr = &rgba[0])
+					OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, OpenGL.GL_RGBA, width, height,
+						0, OpenGL.GL_RGBA, OpenGL.GL_UNSIGNED_BYTE, new IntPtr(ptr));
+			}
+
 			OpenGL.CheckGLError();
 		}
 
@@ -119,7 +161,9 @@ namespace OpenRA.Platforms.Default
 
 			PrepareTexture();
 
-			var glInternalFormat = OpenGL.Profile == GLProfile.Embedded ? OpenGL.GL_BGRA : OpenGL.GL_RGBA8;
+			var glInternalFormat = OpenGL.Profile == GLProfile.Embedded
+				? (embeddedBgraUnsupported ? OpenGL.GL_RGBA : OpenGL.GL_BGRA)
+				: OpenGL.GL_RGBA8;
 			OpenGL.glCopyTexImage2D(OpenGL.GL_TEXTURE_2D, 0, glInternalFormat, rect.X, rect.Y, rect.Width, rect.Height, 0);
 			OpenGL.CheckGLError();
 		}
