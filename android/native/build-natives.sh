@@ -96,4 +96,7 @@ echo "=== libmain (SDL_main bridge)"
 	-o "$OUT/libmain.so" "$ROOT/android/native/main.c" -llog
 echo "Installed libmain.so"
 
+echo "=== Stripping debug info"
+"$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-unneeded "$OUT"/*.so
+
 ls -la "$OUT"
