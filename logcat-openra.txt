@@ -1,0 +1,51 @@
+11-22 20:28:25.871   494  1028 W ActivityTaskManager: Force removing ActivityRecord{9e9f4e1 u0 net.openra.android/.OpenRAActivity t9 f}}: app died, no saved state
+11-22 20:28:25.907   494   588 W InputDispatcher: channel 'a8d8027 net.openra.android/net.openra.android.OpenRAActivity (server)' ~ Consumer closed input channel or an error occurred.  events=0x9
+11-22 20:28:25.907   494   588 E InputDispatcher: channel 'a8d8027 net.openra.android/net.openra.android.OpenRAActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+11-22 20:28:25.960   494  1028 W InputDispatcher: Attempted to unregister already unregistered input channel 'a8d8027 net.openra.android/net.openra.android.OpenRAActivity (server)'
+11-22 20:28:27.857   494  3951 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=net.openra.android/.OpenRAActivity} from uid 0
+11-22 20:28:27.941   494   536 I ActivityManager: Start proc 4887:net.openra.android/u0a167 for pre-top-activity {net.openra.android/net.openra.android.OpenRAActivity}
+11-22 20:28:28.148  4887  4887 D DOTNET  : AndroidCryptoNative_InitLibraryOnLoad: jint AndroidCryptoNative_InitLibraryOnLoad(JavaVM *, void *) in /__w/1/s/src/runtime/src/native/libs/System.Security.Cryptography.Native.Android/pal_jni.c
+11-22 20:28:28.148  4887  4887 D DOTNET  : GetOptionalClassGRef: optional class com/android/org/conscrypt/OpenSSLEngineImpl was not found
+11-22 20:28:28.491  4887  4887 I OpenRA  : Managed entry point registered
+11-22 20:28:28.497  4887  4887 V SDL     : Device: generic_x86_64_arm64
+11-22 20:28:28.497  4887  4887 V SDL     : Model: sdk_gphone_x86_64
+11-22 20:28:28.497  4887  4887 V SDL     : onCreate()
+11-22 20:28:28.497  4887  4887 V SDL     : nativeSetupJNI()
+11-22 20:28:28.498  4887  4887 V SDL     : AUDIO nativeSetupJNI()
+11-22 20:28:28.498  4887  4887 V SDL     : CONTROLLER nativeSetupJNI()
+11-22 20:28:28.531  4887  4887 V SDL     : onStart()
+11-22 20:28:28.531  4887  4887 V SDL     : onResume()
+11-22 20:28:28.589  4887  4887 V SDL     : surfaceCreated()
+11-22 20:28:28.589  4887  4887 V SDL     : surfaceChanged()
+11-22 20:28:28.589  4887  4887 V SDL     : Window size: 2560x1640
+11-22 20:28:28.589  4887  4887 V SDL     : Device size: 2560x1800
+11-22 20:28:28.622  4887  4931 V SDL     : Running main function SDL_main from library /data/app/~~4idMg9-gEc2Ku_tTa-8Hcg==/net.openra.android-48w55XNdl9g9m2YrSBqaMQ==/lib/x86_64/libmain.so
+11-22 20:28:28.622  4887  4931 V SDL     : nativeRunMain()
+11-22 20:28:29.085  4887  4931 I OpenRA  : Starting OpenRA (engine: /data/user/0/net.openra.android/files/engine, support: /storage/emulated/0/Android/data/net.openra.android/files/support, scale: 1.5)
+11-22 20:28:29.474  4887  4887 V SDL     : onWindowFocusChanged(): true
+11-22 20:28:30.056  4887  4931 W monodroid-assembly: Shared library 'liblog' not loaded, p/invoke '__android_log_print' may fail
+11-22 20:28:30.057  4887  4931 I DOTNET  : Platform is Linux (X64)
+11-22 20:28:30.063  4887  4931 I DOTNET  : Engine version is release-20250330
+11-22 20:28:30.067  4887  4931 I DOTNET  : Runtime: .NET CLR 10.0.15
+11-22 20:28:30.510  4887  4931 I DOTNET  : Using SDL 2 with OpenGL (Embedded) renderer
+11-22 20:28:30.545  4887  4931 I DOTNET  : Desktop resolution: 2560x1800
+11-22 20:28:30.545  4887  4931 I DOTNET  : No custom resolution provided, using desktop resolution
+11-22 20:28:30.545  4887  4931 I DOTNET  : Using resolution: 2560x1800
+11-22 20:28:30.547  4887  4931 V SDL     : setOrientation() requestedOrientation=6 width=2560 height=1800 resizable=false hint=
+11-22 20:28:30.576  4887  4931 I SDL/APP : pixel format wanted SDL_PIXELFORMAT_RGBX8888 (2), got SDL_PIXELFORMAT_RGBX8888 (2)
+11-22 20:28:30.586  4887  4887 V SDL     : surfaceChanged()
+11-22 20:28:30.586  4887  4887 V SDL     : Window size: 2560x1800
+11-22 20:28:30.586  4887  4887 V SDL     : Device size: 2560x1800
+11-22 20:28:30.587  4887  4931 I DOTNET  : Android surface: 2560x1800
+11-22 20:28:30.594  4887  4931 I DOTNET  : Using window scale 1.50
+11-22 20:28:30.871  4887  5093 I DOTNET  : OpenGL renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+11-22 20:28:30.871  4887  5093 I DOTNET  : OpenGL version: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+11-22 20:28:30.997  4887  4931 I DOTNET  : Using default sound device
+11-22 20:28:31.184   494   534 D ArtManagerInternalImpl: /data/misc/iorapd/net.openra.android/1/net.openra.android.OpenRAActivity/compiled_traces/compiled_trace.pb doesn't exist
+11-22 20:28:31.184   494   534 I ActivityTaskManager: Displayed net.openra.android/.OpenRAActivity: +1s310ms
+11-22 20:28:31.209  4887  4931 I DOTNET  : Internal mods:
+11-22 20:28:31.209  4887  4931 I DOTNET  : 	ra (release-20250330)
+11-22 20:28:31.209  4887  4931 I DOTNET  : 	ra-content (release-20250330)
+11-22 20:28:31.216  4887  4931 I DOTNET  : External mods:
+11-22 20:28:31.229  4887  4931 I DOTNET  : Loading mod: ra
+11-22 20:28:34.928   345   345 E SurfaceFlinger: [SurfaceView - net.openra.android/net.openra.android.OpenRAActivity#0] rejecting buffer: bufWidth=2560, bufHeight=1640, front.active_legacy.{w=2560, h=1800}

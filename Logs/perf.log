@@ -1,0 +1,224 @@
+          SpriteFonts
+     5 ms |   Precache common|FreeSans.ttf 10px
+     1 ms |   Precache common|FreeSansBold.ttf 10px
+     2 ms |   Precache common|FreeSans.ttf 12px
+     5 ms |   Precache common|FreeSans.ttf 14px
+     1 ms |   Precache common|FreeSansBold.ttf 14px
+     8 ms |   Precache common|FreeSansBold.ttf 18px
+     5 ms |   Precache common|FreeSansBold.ttf 24px
+   116 ms --------------------------------------------------
+          LoadMaps
+   185 ms |   a-nuclear-winter
+    19 ms |   a-path-beyond.oramap
+     6 ms |   agenda.oramap
+    45 ms |   allies-01
+    41 ms |   allies-02
+    28 ms |   allies-03a
+    29 ms |   allies-03b
+    28 ms |   allies-04
+    31 ms |   allies-05a
+    28 ms |   allies-05b
+    27 ms |   allies-05c
+    25 ms |   allies-06a
+    31 ms |   allies-06b
+    25 ms |   allies-07
+    33 ms |   allies-08a
+    29 ms |   allies-08b
+    29 ms |   allies-09a
+    28 ms |   allies-10a
+    28 ms |   allies-10b
+    79 ms |   allies-13
+     8 ms |   altercation.oramap
+    95 ms |   ant-01
+    35 ms |   ant-03
+     4 ms |   archipelago.oramap
+     5 ms |   ardennes.oramap
+     3 ms |   ascent.oramap
+     5 ms |   asymmetric-battle.oramap
+     2 ms |   behind-the-veil.oramap
+     2 ms |   blitz.oramap
+     2 ms |   bombardment-islands.oramap
+    22 ms |   bomber-john
+     4 ms |   chaos-canyon.oramap
+    20 ms |   chernobyl
+     4 ms |   climax-rev15.oramap
+    26 ms |   code-19
+     3 ms |   collaboration.oramap
+     4 ms |   countercross.oramap
+     3 ms |   crossfire.oramap
+    22 ms |   desert-rats
+    43 ms |   desert-shellmap
+     3 ms |   discovery.oramap
+     2 ms |   doubles.oramap
+     3 ms |   doublestep.oramap
+     3 ms |   doughnut.oramap
+    25 ms |   drop-zone
+    22 ms |   drop-zone-battle-of-tikiaki
+    19 ms |   drop-zone-w
+     4 ms |   dual-cold-front.oramap
+     2 ms |   dusttown-battle.oramap
+     2 ms |   ensio-kaivo.oramap
+     5 ms |   europe.oramap
+    31 ms |   evacuation
+    26 ms |   exodus
+    27 ms |   fall-of-greece-1-personal-war
+    26 ms |   fall-of-greece-2-evacuation
+     3 ms |   forgotten-plains.oramap
+    23 ms |   fort-lonestar
+     8 ms |   fortified.oramap
+     4 ms |   forward-progress.oramap
+     3 ms |   great-sahara-2.oramap
+     4 ms |   green-belt.oramap
+    27 ms |   hypothermia.oramap
+     5 ms |   imminent-destruction.oramap
+    29 ms |   in-the-nick-of-time
+    29 ms |   infiltration
+    32 ms |   intervention
+     7 ms |   jungle-law.oramap
+     3 ms |   keep-off-the-grass-2.oramap
+     2 ms |   mad-science.oramap
+     7 ms |   maelstrom.oramap
+     3 ms |   marigold-town.oramap
+     3 ms |   mass-confliction.oramap
+     2 ms |   minor-pressure.oramap
+    36 ms |   monster-tank-madness
+    30 ms |   mousetrap
+    58 ms |   negotiations
+     6 ms |   nine-lives.oramap
+    25 ms |   oil-spill
+     5 ms |   operation-goldmine.oramap
+     5 ms |   ore-gardens.oramap
+     2 ms |   ore-lord.oramap
+     6 ms |   outdoor-trails.oramap
+     5 ms |   pie-of-animosity.oramap
+     8 ms |   pitfight.oramap
+     5 ms |   polar-disorder.oramap
+     9 ms |   pool-party.oramap
+     3 ms |   pressure.oramap
+    31 ms |   production-disruption
+     7 ms |   progress.oramap
+     3 ms |   ridges.oramap
+    41 ms |   ritual-circle.oramap
+    34 ms |   sarin-gas-1-crackdown
+    39 ms |   sarin-gas-2-down-under
+    48 ms |   sarin-gas-3-controlled-burn
+     8 ms |   shadowfiend-II.oramap
+    37 ms |   shattered-mountain
+    50 ms |   shock-therapy
+     7 ms |   shuriken-island
+    68 ms |   siberian-conflict-1-fresh-tracks
+    59 ms |   siberian-conflict-3-wasteland
+     7 ms |   Siberian-Pass.oramap
+     6 ms |   sidestep.oramap
+     3 ms |   singles.oramap
+    41 ms |   situation-critical
+    26 ms |   snow-town
+    31 ms |   soviet-01
+    28 ms |   soviet-02a
+    28 ms |   soviet-02b
+    27 ms |   soviet-03
+    32 ms |   soviet-04a
+    26 ms |   soviet-04b
+    38 ms |   soviet-05
+    33 ms |   soviet-06a
+    36 ms |   soviet-06b
+    32 ms |   soviet-07
+    30 ms |   soviet-08a
+    33 ms |   soviet-08b
+    36 ms |   soviet-09
+    29 ms |   soviet-10
+    29 ms |   soviet-11a
+    31 ms |   soviet-11b
+    33 ms |   soviet-13a
+    27 ms |   soviet-13b
+    29 ms |   soviet-soldier-volkov-n-chitzkoi
+    18 ms |   sudden-death.oramap
+    12 ms |   sunstroke.oramap
+    25 ms |   survival01
+    28 ms |   survival02
+     2 ms |   synergy.oramap
+     3 ms |   tandem.oramap
+     3 ms |   temperal.oramap
+    41 ms |   top-o-the-world
+     2 ms |   tournament-island.oramap
+     3 ms |   trapped.oramap
+     5 ms |   unconventional-warfare.oramap
+     6 ms |   union-sacree.oramap
+     4 ms |   vegetation.oramap
+     2 ms |   warwind.oramap
+     4 ms |   x-lake.oramap
+     2 ms |   ysmir.oramap
+  3070 ms --------------------------------------------------
+          StartGame
+          |   NewWorld
+          |   |   PrepareMap
+          |   |   |   Map
+          |   |   |   |   LoadSequences
+    33 ms |   |   |   |   |   new Sequence("ss")
+   287 ms |   |   |   |   ----------------------------------
+  2673 ms |   |   |   --------------------------------------
+    15 ms |   |   |   Map.Music
+  4023 ms |   |   ------------------------------------------
+  4396 ms |   ----------------------------------------------
+          |   LoadComplete
+     0 ms |   |   ScreenMap.WorldLoaded
+     0 ms |   |   MenuPostProcessEffect.WorldLoaded
+     0 ms |   |   TerrainGeometryOverlay.WorldLoaded
+    28 ms |   |   TerrainRenderer.WorldLoaded
+    59 ms |   |   ShroudRenderer.WorldLoaded
+     4 ms |   |   DevCommands.WorldLoaded
+     3 ms |   |   DebugVisualizationCommands.WorldLoaded
+     0 ms |   |   PlayerCommands.WorldLoaded
+     0 ms |   |   HelpCommand.WorldLoaded
+     0 ms |   |   ScreenShaker.WorldLoaded
+    33 ms |   |   LegacyBridgeLayer.WorldLoaded
+     0 ms |   |   CustomTerrainDebugOverlay.WorldLoaded
+    14 ms |   |   SmudgeLayer.WorldLoaded
+     8 ms |   |   SmudgeLayer.WorldLoaded
+   823 ms |   |   SpawnMapActors.WorldLoaded
+   107 ms |   |   LoadWidgetAtGameStart.WorldLoaded
+     0 ms |   |   CellTriggerOverlay.WorldLoaded
+     0 ms |   |   TimeLimitManager.WorldLoaded
+    39 ms |   |   Locomotor.WorldLoaded
+    11 ms |   |   Locomotor.WorldLoaded
+    14 ms |   |   Locomotor.WorldLoaded
+    19 ms |   |   Locomotor.WorldLoaded
+    10 ms |   |   Locomotor.WorldLoaded
+    20 ms |   |   Locomotor.WorldLoaded
+     5 ms |   |   Locomotor.WorldLoaded
+     5 ms |   |   Locomotor.WorldLoaded
+     6 ms |   |   ResourceLayer.WorldLoaded
+   488 ms |   |   LuaScript.WorldLoaded
+    12 ms |   |   ResourceRenderer.WorldLoaded
+     0 ms |   |   WithResourceAnimation.WorldLoaded
+   378 ms |   |   PathFinder.WorldLoaded
+     1 ms |   |   PathFinderOverlay.WorldLoaded
+     0 ms |   |   HierarchicalPathFinderOverlay.WorldLoaded
+     0 ms |   |   MissionObjectives.WorldLoaded
+     0 ms |   |   PlayerStatistics.WorldLoaded
+     0 ms |   |   GameSaveViewportManager.WorldLoaded
+     2 ms |   |   HarvesterBotModule.WorldLoaded
+     1 ms |   |   PlayerRadarTerrain.WorldLoaded
+     0 ms |   |   MissionObjectives.WorldLoaded
+     0 ms |   |   PlayerStatistics.WorldLoaded
+     0 ms |   |   GameSaveViewportManager.WorldLoaded
+     1 ms |   |   HarvesterBotModule.WorldLoaded
+     0 ms |   |   PlayerRadarTerrain.WorldLoaded
+     0 ms |   |   MissionObjectives.WorldLoaded
+     0 ms |   |   PlayerStatistics.WorldLoaded
+     0 ms |   |   GameSaveViewportManager.WorldLoaded
+     1 ms |   |   HarvesterBotModule.WorldLoaded
+     0 ms |   |   PlayerRadarTerrain.WorldLoaded
+     0 ms |   |   MissionObjectives.WorldLoaded
+     0 ms |   |   PlayerStatistics.WorldLoaded
+     0 ms |   |   GameSaveViewportManager.WorldLoaded
+     1 ms |   |   HarvesterBotModule.WorldLoaded
+     0 ms |   |   PlayerRadarTerrain.WorldLoaded
+     0 ms |   |   MissionObjectives.WorldLoaded
+     0 ms |   |   PlayerStatistics.WorldLoaded
+     0 ms |   |   GameSaveViewportManager.WorldLoaded
+     1 ms |   |   HarvesterBotModule.WorldLoaded
+     0 ms |   |   PlayerRadarTerrain.WorldLoaded
+  2099 ms |   ----------------------------------------------
+     5 ms |   MusicPlaylist.PostWorldLoaded
+  6657 ms --------------------------------------------------
