@@ -25,6 +25,7 @@ cd "$OLDPWD"
 find /tmp/racontent/stage -type f | wc -l
 
 echo "=== Installing"
+adb root > /dev/null 2>&1; sleep 3; adb wait-for-device
 adb install -r out/OpenRA-Android.apk > smoke/install.txt 2>&1
 cat smoke/install.txt
 EXT=/sdcard/Android/data/$PKG/files
@@ -36,10 +37,16 @@ echo "=== Launching"
 adb logcat -c
 adb shell am start -n $PKG/$PKG.OpenRAActivity
 last=0
-for t in 20 45 90 150 240; do
+for t in 20 40 60 90 120 180 240; do
 	sleep $(( t - last )); last=$t
 	adb exec-out screencap -p > "smoke/screen-${t}s.png"
 	echo "screenshot at ${t}s (pid: $(adb shell pidof $PKG))"
+	# If the pre-loaded files weren't picked up, press "Quick Install" like a player would
+	# (button position on the 2560x1800 pixel_c screen).
+	if [ "$t" = 20 ] && grep -q "Loading mod: ra-content" <(adb logcat -d -s DOTNET); then
+		echo "Content installer is showing; tapping Quick Install"
+		adb shell input tap 1263 1092
+	fi
 done
 
 adb logcat -d > smoke/logcat-full.txt
