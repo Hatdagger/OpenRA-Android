@@ -1,22 +1,52 @@
 #!/usr/bin/env bash
-# Installs and launches the APK on a running emulator, capturing screenshots and logcat into ./smoke.
+# Installs the APK on a running emulator with the Red Alert game files pre-loaded,
+# launches it, and captures screenshots, logcat and OpenRA's own logs into ./smoke.
 set -u
+PKG=net.openra.android
 mkdir -p smoke
+
+echo "=== Fetching the Red Alert quick-install package"
+mkdir -p /tmp/racontent && cd /tmp/racontent
+for url in $(curl -fsSL https://www.openra.net/packages/ra-quickinstall-mirrors.txt); do
+	curl -fsSL -o ra.zip "$url" && break
+done
+echo "44241f68e69db9511db82cf83c174737ccda300b  ra.zip" | sha1sum -c - || echo "WARNING: checksum mismatch"
+mkdir -p zip stage && unzip -qo ra.zip -d zip
+# Lay files out the way the in-game installer does (see mods/ra-content/installer/downloads.yaml).
+sed -n '/^quickinstall:/,/^[^\t ]/p' "$OLDPWD/mods/ra-content/installer/downloads.yaml" \
+	| grep -o '\^SupportDir|Content/ra/v2/[^:]*: .*' \
+	| while IFS= read -r line; do
+		dest="${line#^SupportDir|}"; dest="${dest%%:*}"
+		src="${line#*: }"
+		mkdir -p "stage/$(dirname "$dest")"
+		cp "zip/$src" "stage/$dest"
+	done
+cd "$OLDPWD"
+find /tmp/racontent/stage -type f | wc -l
+
+echo "=== Installing"
 adb install -r out/OpenRA-Android.apk > smoke/install.txt 2>&1
 cat smoke/install.txt
+EXT=/sdcard/Android/data/$PKG/files
+adb shell mkdir -p "$EXT/support"
+adb push /tmp/racontent/stage/Content "$EXT/support/" > /dev/null
+adb shell ls -R "$EXT/support/Content" | head -20
+
+echo "=== Launching"
 adb logcat -c
-adb shell am start -n net.openra.android/net.openra.android.OpenRAActivity
-for t in 30 60 120 180 240; do
-	sleep $(( t - ${last:-0} ))
-	last=$t
+adb shell am start -n $PKG/$PKG.OpenRAActivity
+last=0
+for t in 20 45 90 150 240; do
+	sleep $(( t - last )); last=$t
 	adb exec-out screencap -p > "smoke/screen-${t}s.png"
-	echo "screenshot at ${t}s"
+	echo "screenshot at ${t}s (pid: $(adb shell pidof $PKG))"
 done
+
 adb logcat -d > smoke/logcat-full.txt
-grep -E "OpenRA|DOTNET|mono|monodroid|SDL|AndroidRuntime|FATAL|libc|DEBUG" smoke/logcat-full.txt > smoke/logcat-openra.txt || true
-adb shell run-as net.openra.android ls -R files/support 2>/dev/null | head -50 > smoke/support-files.txt || true
-for f in debug exception graphics perf; do
-	adb shell run-as net.openra.android cat "files/support/Logs/$f.log" > "smoke/$f.log" 2>/dev/null || true
-done
-tail -n 80 smoke/logcat-openra.txt
+PID_LINES=$(grep -E "OpenRA|DOTNET|mono|monodroid|SDL|AndroidRuntime|FATAL|F DEBUG|F libc|ndk_translation" smoke/logcat-full.txt)
+echo "$PID_LINES" > smoke/logcat-openra.txt
+adb pull "$EXT/support/Logs" smoke/Logs > /dev/null 2>&1 || true
+adb shell ls -R "$EXT/support" > smoke/support-files.txt 2>&1 || true
+tail -n 100 smoke/logcat-openra.txt
+for f in smoke/Logs/*.log; do [ -f "$f" ] && { echo "=== $f"; tail -n 60 "$f"; }; done
 exit 0

@@ -28,6 +28,7 @@ namespace OpenRADroid
 		static MainDelegate mainDelegate;
 
 		static string filesDir;
+		static string externalDir;
 		static global::Android.Content.Res.AssetManager assets;
 		static float density = 1f;
 
@@ -39,6 +40,7 @@ namespace OpenRADroid
 			base.OnCreate();
 
 			filesDir = FilesDir.AbsolutePath;
+			externalDir = GetExternalFilesDir(null)?.AbsolutePath;
 			assets = Assets;
 			density = Resources.DisplayMetrics.Density;
 
@@ -52,7 +54,10 @@ namespace OpenRADroid
 			try
 			{
 				var engineDir = Path.Combine(filesDir, "engine");
-				var supportDir = Path.Combine(filesDir, "support");
+
+				// Settings, logs, maps and downloaded game files live in the app's external folder
+				// (Android/data/net.openra.android/files/support) so logs can be copied off over USB.
+				var supportDir = Path.Combine(externalDir ?? filesDir, "support");
 
 				ExtractEngine(engineDir);
 				Directory.CreateDirectory(supportDir);

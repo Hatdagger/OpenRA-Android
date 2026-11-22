@@ -72,6 +72,7 @@ jobs:
           mkdir -p out
           find android/OpenRA.Android/bin/Release -name '*-Signed.apk' -exec cp {} out/OpenRA-Android.apk \;
           ls -la out
+          unzip -l out/OpenRA-Android.apk | grep -E 'lib/|assets/' || true
 
       - name: Build x86_64 APK (emulator smoke test only)
         run: |
@@ -88,7 +89,6 @@ jobs:
           name: OpenRA-Android-x86_64-apk
           path: out-x64/OpenRA-Android.apk
           if-no-files-found: error
-          unzip -l out/OpenRA-Android.apk | grep -E 'lib/|assets/' || true
 
       - uses: actions/upload-artifact@v4
         with:
